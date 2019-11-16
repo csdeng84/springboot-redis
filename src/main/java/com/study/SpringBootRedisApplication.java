@@ -22,13 +22,16 @@ public class SpringBootRedisApplication {
         SpringApplication.run(SpringBootRedisApplication.class, args);
     }
 
-    private String redisHost = "192.168.0.107";
+    @Value("${spring.redis.host}")
+    private String redisHost;
+    @Value("${spring.redis.port}")
+    private String redisPort;
 
     @Bean
     public Redisson redisson() {
 
         Config config = new Config();
-        config.useSingleServer().setAddress("redis://" + redisHost + ":6379").setDatabase(0);
+        config.useSingleServer().setAddress("redis://" + redisHost + ":" + redisPort).setDatabase(0);
         return (Redisson) Redisson.create(config);
     }
 }
